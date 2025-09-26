@@ -5,10 +5,7 @@ import Filters from "./components/filters";
 import Search from "./components/search";
 import Products from "./components/products";
 import Cart from "./components/cart";
-<<<<<<< HEAD
 import ProductDetail from "./components/productdetails";
-=======
->>>>>>> a7dd2bf9eb6a1b118e406b57b756769ae4fa39c3
 
 const App = () => {
   const [products, setProducts] = useState([]);
@@ -16,13 +13,9 @@ const App = () => {
   const [cartItems, setCartItems] = useState([]);
   const [showCart, setShowCart] = useState(false);
   const [sortOption, setSortOption] = useState("default");
-<<<<<<< HEAD
   const [selectedProduct, setSelectedProduct] = useState(null);
 
-=======
-
-  
->>>>>>> a7dd2bf9eb6a1b118e406b57b756769ae4fa39c3
+  // Load products
   useEffect(() => {
     axios
       .get("https://dummyjson.com/products")
@@ -33,6 +26,7 @@ const App = () => {
       .catch((err) => console.error("Error loading products", err));
   }, []);
 
+  // --- Filtering ---
   const handleFilter = (min, max, category) => {
     const filtered = products.filter(
       (p) =>
@@ -44,10 +38,7 @@ const App = () => {
     setShowCart(false);
   };
 
-<<<<<<< HEAD
-=======
-  
->>>>>>> a7dd2bf9eb6a1b118e406b57b756769ae4fa39c3
+  // --- Search ---
   const handleSearch = (query) => {
     query = query.toLowerCase();
     const searched = products.filter((p) =>
@@ -57,6 +48,7 @@ const App = () => {
     setShowCart(false);
   };
 
+  // --- Sorting ---
   const handleSort = (option) => {
     setSortOption(option);
     setFilteredProducts(applySort(filteredProducts, option));
@@ -80,18 +72,18 @@ const App = () => {
     return sorted;
   };
 
-<<<<<<< HEAD
- const handleAddToCart = (product, redirectToCart = false) => {
+  // --- Cart Actions ---
+ const handleAddToCart = (product, quantity = 1, redirectToCart = false) => {
   setCartItems((prevCart) => {
     const existing = prevCart.find((item) => item.id === product.id);
     if (existing) {
       return prevCart.map((item) =>
         item.id === product.id
-          ? { ...item, quantity: item.quantity + 1 }
+          ? { ...item, quantity: item.quantity + quantity }
           : item
       );
     } else {
-      return [...prevCart, { ...product, quantity: 1 }];
+      return [...prevCart, { ...product, quantity }];
     }
   });
 
@@ -100,35 +92,19 @@ const App = () => {
     setSelectedProduct(null);
   }
 };
-=======
-  
-  const handleAddToCart = (product) => {
-    setCartItems((prevCart) => {
-      const existing = prevCart.find((item) => item.id === product.id);
-      if (existing) {
-        return prevCart.map((item) =>
-          item.id === product.id
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
-        );
-      } else {
-        return [...prevCart, { ...product, quantity: 1 }];
-      }
-    });
-  };
->>>>>>> a7dd2bf9eb6a1b118e406b57b756769ae4fa39c3
 
-
-  const handleRemoveFromCart = (index) => {
-    const updatedCart = [...cartItems];
-    updatedCart.splice(index, 1);
-    setCartItems(updatedCart);
+  const handleRemoveFromCart = (product) => {
+    setCartItems((prevCart) => prevCart.filter((item) => item.id !== product.id));
   };
 
-<<<<<<< HEAD
-=======
-  
->>>>>>> a7dd2bf9eb6a1b118e406b57b756769ae4fa39c3
+  const handleUpdateQuantity = (id, newQuantity) => {
+    setCartItems((prevCart) =>
+      prevCart.map((item) =>
+        item.id === id ? { ...item, quantity: newQuantity } : item
+      )
+    );
+  };
+
   const handleCheckout = () => {
     alert(
       "Delivery has been confirmed. Method of payment: Cash on Delivery (COD). Thank you for your purchase!"
@@ -137,7 +113,7 @@ const App = () => {
     setShowCart(false);
   };
 
-<<<<<<< HEAD
+  // --- Product Selection ---
   const handleSelectProduct = (product) => {
     setSelectedProduct(product);
     setShowCart(false);
@@ -147,14 +123,12 @@ const App = () => {
     setSelectedProduct(null);
   };
 
-=======
->>>>>>> a7dd2bf9eb6a1b118e406b57b756769ae4fa39c3
+  // --- Render ---
   return (
     <div style={{ padding: 20, fontFamily: "Arial, sans-serif" }}>
       <header style={{ marginBottom: 20 }}>
         <h1>E-Commerce Shop</h1>
         <nav>
-<<<<<<< HEAD
           <button
             onClick={() => {
               setShowCart(false);
@@ -168,11 +142,6 @@ const App = () => {
               setShowCart(true);
               setSelectedProduct(null);
             }}
-=======
-          <button onClick={() => setShowCart(false)}>Home</button>
-          <button
-            onClick={() => setShowCart(true)}
->>>>>>> a7dd2bf9eb6a1b118e406b57b756769ae4fa39c3
             style={{ marginLeft: 10 }}
           >
             Cart ({cartItems.length})
@@ -180,7 +149,6 @@ const App = () => {
         </nav>
       </header>
 
-<<<<<<< HEAD
       {selectedProduct ? (
         <ProductDetail
           product={selectedProduct}
@@ -192,11 +160,9 @@ const App = () => {
           cartItems={cartItems}
           onCheckout={handleCheckout}
           onRemove={handleRemoveFromCart}
+          onUpdateQuantity={handleUpdateQuantity}
         />
       ) : (
-=======
-      {!showCart ? (
->>>>>>> a7dd2bf9eb6a1b118e406b57b756769ae4fa39c3
         <div className="shop-layout">
           <Filters onFilter={handleFilter} />
           <div>
@@ -213,7 +179,7 @@ const App = () => {
                 <option value="name">Name (A–Z)</option>
               </select>
             </div>
-<<<<<<< HEAD
+
             <Products
               products={filteredProducts}
               onBuyNow={handleAddToCart}
@@ -221,17 +187,6 @@ const App = () => {
             />
           </div>
         </div>
-=======
-            <Products products={filteredProducts} onBuyNow={handleAddToCart} />
-          </div>
-        </div>
-      ) : (
-        <Cart
-          cartItems={cartItems}
-          onCheckout={handleCheckout}
-          onRemove={handleRemoveFromCart}
-        />
->>>>>>> a7dd2bf9eb6a1b118e406b57b756769ae4fa39c3
       )}
 
       <footer
