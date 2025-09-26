@@ -5,7 +5,10 @@ import Filters from "./components/filters";
 import Search from "./components/search";
 import Products from "./components/products";
 import Cart from "./components/cart";
+<<<<<<< HEAD
 import ProductDetail from "./components/productdetails";
+=======
+>>>>>>> a7dd2bf9eb6a1b118e406b57b756769ae4fa39c3
 
 const App = () => {
   const [products, setProducts] = useState([]);
@@ -13,8 +16,13 @@ const App = () => {
   const [cartItems, setCartItems] = useState([]);
   const [showCart, setShowCart] = useState(false);
   const [sortOption, setSortOption] = useState("default");
+<<<<<<< HEAD
   const [selectedProduct, setSelectedProduct] = useState(null);
 
+=======
+
+  
+>>>>>>> a7dd2bf9eb6a1b118e406b57b756769ae4fa39c3
   useEffect(() => {
     axios
       .get("https://dummyjson.com/products")
@@ -36,6 +44,10 @@ const App = () => {
     setShowCart(false);
   };
 
+<<<<<<< HEAD
+=======
+  
+>>>>>>> a7dd2bf9eb6a1b118e406b57b756769ae4fa39c3
   const handleSearch = (query) => {
     query = query.toLowerCase();
     const searched = products.filter((p) =>
@@ -68,6 +80,7 @@ const App = () => {
     return sorted;
   };
 
+<<<<<<< HEAD
  const handleAddToCart = (product, redirectToCart = false) => {
   setCartItems((prevCart) => {
     const existing = prevCart.find((item) => item.id === product.id);
@@ -87,6 +100,23 @@ const App = () => {
     setSelectedProduct(null);
   }
 };
+=======
+  
+  const handleAddToCart = (product) => {
+    setCartItems((prevCart) => {
+      const existing = prevCart.find((item) => item.id === product.id);
+      if (existing) {
+        return prevCart.map((item) =>
+          item.id === product.id
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        );
+      } else {
+        return [...prevCart, { ...product, quantity: 1 }];
+      }
+    });
+  };
+>>>>>>> a7dd2bf9eb6a1b118e406b57b756769ae4fa39c3
 
 
   const handleRemoveFromCart = (index) => {
@@ -95,6 +125,10 @@ const App = () => {
     setCartItems(updatedCart);
   };
 
+<<<<<<< HEAD
+=======
+  
+>>>>>>> a7dd2bf9eb6a1b118e406b57b756769ae4fa39c3
   const handleCheckout = () => {
     alert(
       "Delivery has been confirmed. Method of payment: Cash on Delivery (COD). Thank you for your purchase!"
@@ -103,6 +137,7 @@ const App = () => {
     setShowCart(false);
   };
 
+<<<<<<< HEAD
   const handleSelectProduct = (product) => {
     setSelectedProduct(product);
     setShowCart(false);
@@ -112,11 +147,14 @@ const App = () => {
     setSelectedProduct(null);
   };
 
+=======
+>>>>>>> a7dd2bf9eb6a1b118e406b57b756769ae4fa39c3
   return (
     <div style={{ padding: 20, fontFamily: "Arial, sans-serif" }}>
       <header style={{ marginBottom: 20 }}>
         <h1>E-Commerce Shop</h1>
         <nav>
+<<<<<<< HEAD
           <button
             onClick={() => {
               setShowCart(false);
@@ -130,6 +168,11 @@ const App = () => {
               setShowCart(true);
               setSelectedProduct(null);
             }}
+=======
+          <button onClick={() => setShowCart(false)}>Home</button>
+          <button
+            onClick={() => setShowCart(true)}
+>>>>>>> a7dd2bf9eb6a1b118e406b57b756769ae4fa39c3
             style={{ marginLeft: 10 }}
           >
             Cart ({cartItems.length})
@@ -137,6 +180,7 @@ const App = () => {
         </nav>
       </header>
 
+<<<<<<< HEAD
       {selectedProduct ? (
         <ProductDetail
           product={selectedProduct}
@@ -150,6 +194,9 @@ const App = () => {
           onRemove={handleRemoveFromCart}
         />
       ) : (
+=======
+      {!showCart ? (
+>>>>>>> a7dd2bf9eb6a1b118e406b57b756769ae4fa39c3
         <div className="shop-layout">
           <Filters onFilter={handleFilter} />
           <div>
@@ -166,6 +213,7 @@ const App = () => {
                 <option value="name">Name (A–Z)</option>
               </select>
             </div>
+<<<<<<< HEAD
             <Products
               products={filteredProducts}
               onBuyNow={handleAddToCart}
@@ -173,6 +221,17 @@ const App = () => {
             />
           </div>
         </div>
+=======
+            <Products products={filteredProducts} onBuyNow={handleAddToCart} />
+          </div>
+        </div>
+      ) : (
+        <Cart
+          cartItems={cartItems}
+          onCheckout={handleCheckout}
+          onRemove={handleRemoveFromCart}
+        />
+>>>>>>> a7dd2bf9eb6a1b118e406b57b756769ae4fa39c3
       )}
 
       <footer
